@@ -22,7 +22,7 @@ function loadScript( url, callback ) {
 
 $.get('key.json')
 .done(function(data) {
-  loadScript('https://maps.googleapis.com/maps/api/js?key=' + data.key +'&callback=initMap', function() {
+  loadScript('https://maps.googleapis.com/maps/api/js?key=' + data.key +'&callback=init', function() {
     console.log('script loaded.');
   });
 })

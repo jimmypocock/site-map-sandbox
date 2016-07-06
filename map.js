@@ -6,58 +6,61 @@
 window.Circuit = window.Circuit || {};
 var position;
 
-function loadSitePlan(id) {
-  id = id || 0;
-  $.get('sitePlan.mst', function(template) {
-    var rendered = Mustache.render(template, window.Circuit.sitePlans[id]);
+
+
+/* Load sitePlans.json */
+function loadSitePlans(callback) {
+  $.get('sitePlans.json', function(sitePlans) {
+    window.Circuit.sitePlans = sitePlans;
+    callback();
+  });
+}
+
+
+/* Load sites.json */
+function loadSites(callback) {
+  $.get('sites.json', function(sites) {
+    window.Circuit.sites = sites;
+    callback();
+  });
+}
+
+
+/* Display site Mustache template */
+function displaySite(site) {
+  site = site || window.Circuit.sites[0];
+
+  var data = window.Circuit.sitePlans[site.sitePlanId];
+  data.available = site.available;
+
+  $.get('site.mst', function(template) {
+    var rendered = Mustache.render(template, data);
     $('#site-plan').html(rendered);
   });
 }
 
-function loadSitePlans() {
-  $.get('sitePlans.json', function(data) {
-    window.Circuit.sitePlans = data;
-    loadSitePlan();
-  });
-}
-loadSitePlans();
 
+
+/* Mouse event on dragging marker */
 function markerMouseUp(marker) {
   marker.addListener('mouseup', function(data) {
     console.log('lat: ' + data.latLng.lat() + ', lng: ' + data.latLng.lng());
   });
 }
 
+
+
+/* Click event on marker */
 function markerClickListener(marker) {
-  var infowindow = new google.maps.InfoWindow({
-    content: 'Hello, World'
-  });
-
   marker.addListener('click', function() {
-    loadSitePlan(window.Circuit.sites[marker.id].sitePlanId);
+    displaySite(window.Circuit.sites[marker.id]);
   });
 }
 
-function getMarkers(callback) {
-  var cb = callback || function() {};
 
-  $.get('sites.json')
-  .done(function(data) {
-    window.Circuit.sites = data;
-    cb(data);
-  })
-  .fail(function(err) {
-    window.alert( 'error retrieving markers.json: ' + err);
-  })
-  .always(function() {});
-}
 
+/* Set markers on map */
 function setMarkers(markers, map) {
-
-  var shape = {
-    coords: [1, 1, 1, 20, 18, 20, 18, 1],
-    type: 'poly'
-  };
 
   // Create a marker and set its position.
   for (var i = 0; i < markers.length; i++) {
@@ -66,12 +69,15 @@ function setMarkers(markers, map) {
       lng: markers[i].lng
     };
 
+    var available = markers[i].available ? '008000' : 'ff0000';
+    var image = 'http://www.googlemapsmarkers.com/v1/'+(i+1)+'/'+available+'/';
+    // debugger;
+
     var marker = new google.maps.Marker({
       map: map,
       draggable: true,
-      shape: shape,
       animation: google.maps.Animation.DROP,
-      label: (i+1).toString(),
+      icon: image,
       position: position
     });
 
@@ -82,7 +88,10 @@ function setMarkers(markers, map) {
   }
 }
 
-function initMap() {
+
+
+/* Initialize map and load data */
+function init() {
   var center = {lat: 30.1383467, lng: -97.6306428}; // perfect center
 
   // Create a map object and specify the DOM element for display.
@@ -93,7 +102,11 @@ function initMap() {
     mapTypeId: google.maps.MapTypeId.SATELLITE
   });
 
-  getMarkers(function(data) {
-    setMarkers(data, map);
+  // :/ damn...three deep.
+  loadSitePlans(function() {
+    loadSites(function() {
+      displaySite();
+      setMarkers(window.Circuit.sites, map);
+    });
   });
 }

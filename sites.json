@@ -2,26 +2,31 @@
   {
     "lat":  30.1380985007611,
     "lng": -97.63379439559253,
-    "sitePlanId": 0
+    "sitePlanId": 0,
+    "available": true
   },
   {
     "lat":  30.138103140004926,
     "lng": -97.63371124711307,
-    "sitePlanId": 0
+    "sitePlanId": 0,
+    "available": false
   },
   {
     "lat":  30.13811241849194,
     "lng": -97.63363078084262,
-    "sitePlanId": 0
+    "sitePlanId": 0,
+    "available": true
   },
   {
     "lat":  30.138119377356627,
     "lng": -97.63354763236316,
-    "sitePlanId": 1
+    "sitePlanId": 1,
+    "available": false
   },
   {
     "lat":  30.138128655842117,
     "lng": -97.63346716609271,
-    "sitePlanId": 1
+    "sitePlanId": 1,
+    "available": true
   }
 ]
