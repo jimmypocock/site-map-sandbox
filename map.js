@@ -4,21 +4,37 @@
 /* globals Mustache:false */
 
 window.Circuit = window.Circuit || {};
-var marker, position;
+var position;
 
-function initMap() {
-  var center = {lat: 30.1383467, lng: -97.6306428}; // perfect center
+function loadSitePlan(id) {
+  id = id || 0;
+  $.get('sitePlan.mst', function(template) {
+    var rendered = Mustache.render(template, window.Circuit.sitePlans[id]);
+    $('#site-plan').html(rendered);
+  });
+}
 
-  // Create a map object and specify the DOM element for display.
-  var map = new google.maps.Map(document.getElementById('map'), {
-    center: center,
-    scrollwheel: false,
-    zoom: 17,
-    mapTypeId: google.maps.MapTypeId.SATELLITE
+function loadSitePlans() {
+  $.get('sitePlans.json', function(data) {
+    window.Circuit.sitePlans = data;
+    loadSitePlan();
+  });
+}
+loadSitePlans();
+
+function markerMouseUp(marker) {
+  marker.addListener('mouseup', function(data) {
+    console.log('lat: ' + data.latLng.lat() + ', lng: ' + data.latLng.lng());
+  });
+}
+
+function markerClickListener(marker) {
+  var infowindow = new google.maps.InfoWindow({
+    content: 'Hello, World'
   });
 
-  getMarkers(function(data) {
-    setMarkers(data, map);
+  marker.addListener('click', function() {
+    loadSitePlan(window.Circuit.sites[marker.id].sitePlanId);
   });
 }
 
@@ -27,6 +43,7 @@ function getMarkers(callback) {
 
   $.get('sites.json')
   .done(function(data) {
+    window.Circuit.sites = data;
     cb(data);
   })
   .fail(function(err) {
@@ -49,7 +66,7 @@ function setMarkers(markers, map) {
       lng: markers[i].lng
     };
 
-    marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
       map: map,
       draggable: true,
       shape: shape,
@@ -58,25 +75,25 @@ function setMarkers(markers, map) {
       position: position
     });
 
-    marker.addListener('mouseup', function(data) {
-      console.log('lat: ' + data.latLng.lat() + ', lng: ' + data.latLng.lng());
-    });
+    marker.set('id', i);
+
+    markerMouseUp(marker);
+    markerClickListener(marker);
   }
 }
 
-function loadSitePlan(id) {
-  id = id || 0;
-  $.get('sitePlan.mst', function(template) {
-    var rendered = Mustache.render(template, window.Circuit.sitePlans[id]);
-    $('#site-plan').html(rendered);
+function initMap() {
+  var center = {lat: 30.1383467, lng: -97.6306428}; // perfect center
+
+  // Create a map object and specify the DOM element for display.
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: center,
+    scrollwheel: false,
+    zoom: 17,
+    mapTypeId: google.maps.MapTypeId.SATELLITE
+  });
+
+  getMarkers(function(data) {
+    setMarkers(data, map);
   });
 }
-
-function loadSitePlans() {
-  $.get('sitePlans.json', function(data) {
-    window.Circuit.sitePlans = data;
-    loadSitePlan();
-  });
-}
-loadSitePlans();
-
