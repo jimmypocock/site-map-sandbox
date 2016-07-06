@@ -1,0 +1,34 @@
+<div class="summary">
+  <img class="image" src="{{image}}">
+  <h3 class="name">{{name}}</h3>
+  <div>
+    <label>Price:</label>
+    <p>${{price}}</p>
+  </div>
+  <div>
+    <label>Length:</label>
+    <p>{{length}} ft.</p>
+  </div>
+  <div>
+    <label>Max People:</label>
+    <p>{{maxPeople}}</p>
+  </div>
+  <div>
+    <label>Electrical Hookups:</label>
+    {{#electricity}}
+    <p>Yes</p>
+    {{/electricity}}
+    {{^electricity}}
+    <p>No</p>
+    {{/electricity}}
+  </div>
+  <div>
+    <label>Water Hookups:</label>
+    {{#water}}
+    <p>Yes</p>
+    {{/water}}
+    {{^water}}
+    <p>No</p>
+    {{/water}}
+  </div>
+</div>

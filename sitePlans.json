@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Pavement Site",
+    "price": 50,
+    "maxPeople": 4,
+    "length": 75,
+    "water": true,
+    "electricity": true,
+    "image": "pavement.png"
+  },
+  {
+    "name": "Grass Site",
+    "price": 30,
+    "maxPeople": 4,
+    "length": 75,
+    "water": false,
+    "electricity": false,
+    "type": "grass",
+    "image": "grass.png"
+  }
+]

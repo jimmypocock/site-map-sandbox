@@ -1,3 +1,5 @@
+// http://stackoverflow.com/questions/14644558/call-javascript-function-after-script-is-loaded
+
 function loadScript( url, callback ) {
   var script = document.createElement( "script" );
   script.type = "text/javascript";
