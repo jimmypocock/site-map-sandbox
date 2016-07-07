@@ -31,15 +31,18 @@ Show the site plan data next to map once clicked.
         display: inline;
       }
       .available {
-        color: green;
+        color: #328c78;
       }
       .not-available {
-        color: red;
+        color: #6a6a6a;
       }
        #map {
         max-width: 100%;
         width: 100%;
         height: 500px;
+      }
+      #marker {
+        padding: 15px 0 0 15px;
       }
     </style>
   </head>
@@ -53,6 +56,7 @@ Show the site plan data next to map once clicked.
           <div id="site-plan"></div>
         </div>
       </div>
+      <div id="marker" class="row"></div>
     </div>
 
     <!-- jQuery -->

@@ -1,4 +1,7 @@
 [
+
+/* Pavement Sites */
+
   {
     "lat":  30.1380985007611,
     "lng": -97.63379439559253,
@@ -20,12 +23,81 @@
   {
     "lat":  30.138119377356627,
     "lng": -97.63354763236316,
-    "sitePlanId": 1,
+    "sitePlanId": 0,
     "available": false
   },
   {
     "lat":  30.138128655842117,
     "lng": -97.63346716609271,
+    "sitePlanId": 0,
+    "available": true
+  },
+  {
+    "lat":  30.138137934326735,
+    "lng": -97.63338401761325,
+    "sitePlanId": 0,
+    "available": true
+  },
+  {
+    "lat":  30.138144893189647,
+    "lng":  -97.63330086913379,
+    "sitePlanId": 0,
+    "available": false
+  },
+  {
+    "lat":  30.138154171672742,
+    "lng":  -97.63322040286334,
+    "sitePlanId": 0,
+    "available": true
+  },
+  {
+    "lat":  30.138161130534456,
+    "lng":  -97.63313725438388,
+    "sitePlanId": 0,
+    "available": false
+  },
+  {
+    "lat":  30.138170409016077,
+    "lng":  -97.63305678811344,
+    "sitePlanId": 0,
+    "available": true
+  },
+  {
+    "lat":  30.138179687496724,
+    "lng":  -97.63297363963397,
+    "sitePlanId": 0,
+    "available": true
+  },
+
+/* Grass Sites */
+
+  {
+    "lat":  30.132742348292783,
+    "lng":  -97.6336093231705,
+    "sitePlanId": 1,
+    "available": false
+  },
+  {
+    "lat":  30.132844417145606,
+    "lng":  -97.63353422131809,
+    "sitePlanId": 1,
+    "available": true
+  },
+  {
+    "lat":  30.132932567433624,
+    "lng":  -97.63345911946567,
+    "sitePlanId": 1,
+    "available": false
+  },
+  {
+    "lat":  30.133025357125412,
+    "lng":  -97.63338938203128,
+    "sitePlanId": 1,
+    "available": true
+  },
+  {
+    "lat":  30.133132065163128,
+    "lng":  -97.63332500901492,
     "sitePlanId": 1,
     "available": true
   }

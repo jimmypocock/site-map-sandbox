@@ -2,11 +2,10 @@
 /* globals $:false */
 /* globals google:false */
 /* globals Mustache:false */
+/* exported init */
 
 window.Circuit = window.Circuit || {};
-var position;
-
-
+var position, marker, available, image;
 
 /* Load sitePlans.json */
 function loadSitePlans(callback) {
@@ -30,12 +29,20 @@ function loadSites(callback) {
 function displaySite(site) {
   site = site || window.Circuit.sites[0];
 
-  var data = window.Circuit.sitePlans[site.sitePlanId];
-  data.available = site.available;
+  $.extend(site, window.Circuit.sitePlans[site.sitePlanId]);
 
   $.get('site.mst', function(template) {
-    var rendered = Mustache.render(template, data);
+    var rendered = Mustache.render(template, site);
     $('#site-plan').html(rendered);
+  });
+}
+
+
+/* Display marker coordinates */
+function displayMarkerCoordinates(marker) {
+  $.get('marker.mst', function(template) {
+    var rendered = Mustache.render(template, marker);
+    $('#marker').html(rendered);
   });
 }
 
@@ -44,7 +51,11 @@ function displaySite(site) {
 /* Mouse event on dragging marker */
 function markerMouseUp(marker) {
   marker.addListener('mouseup', function(data) {
-    console.log('lat: ' + data.latLng.lat() + ', lng: ' + data.latLng.lng());
+    displayMarkerCoordinates({
+      id: marker.id,
+      lat: data.latLng.lat(),
+      lng: data.latLng.lng()
+    });
   });
 }
 
@@ -58,22 +69,31 @@ function markerClickListener(marker) {
 }
 
 
+/* Helper to make coords object */
+function makeLatLng(lat, lng) {
+  return {
+    lat: lat,
+    lng: lng
+  };
+}
+
+
 
 /* Set markers on map */
 function setMarkers(markers, map) {
 
   // Create a marker and set its position.
   for (var i = 0; i < markers.length; i++) {
-    position = {
-      lat: markers[i].lat,
-      lng: markers[i].lng
-    };
+    if (markers[i].lat && markers[i].lng) {
+      position = makeLatLng(markers[i].lat, markers[i].lng);
+    } else {
+      position = makeLatLng(map.center.lat(), map.center.lng());
+    }
 
-    var available = markers[i].available ? '008000' : 'ff0000';
-    var image = 'http://www.googlemapsmarkers.com/v1/'+(i+1)+'/'+available+'/';
-    // debugger;
+    available = markers[i].available ? '328c78' : '6a6a6a';
+    image = 'http://www.googlemapsmarkers.com/v1/'+i+'/'+available+'/f2f2f2/f2f2f2';
 
-    var marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
       map: map,
       draggable: true,
       animation: google.maps.Animation.DROP,
@@ -98,7 +118,7 @@ function init() {
   var map = new google.maps.Map(document.getElementById('map'), {
     center: center,
     scrollwheel: false,
-    zoom: 17,
+    zoom: 15,
     mapTypeId: google.maps.MapTypeId.SATELLITE
   });
 

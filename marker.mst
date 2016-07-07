@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-1">
+        <label>ID: </label>
+      </div>
+      <div class="col-md-11">
+        <p class="id">{{id}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+        <label>Lat: </label>
+      </div>
+      <div class="col-md-11">
+        <p class="lat">{{lat}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+        <label>Lng: </label>
+      </div>
+      <div class="col-md-11">
+        <p class="lat">{{lng}}</p>
+      </div>
+  </div>
+  </div>
+</div>
